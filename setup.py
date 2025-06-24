@@ -42,8 +42,8 @@ def get_console_scripts() -> list[str]:
 
 
 extra_require = {
-    "torch": ["torch>=2.0.0", "torchvision>=0.15.0"],
-    "torch-npu": ["torch==2.4.0", "torch-npu==2.4.0.post2", "decorator"],
+    "torch": ["torch>=2.7.0", "torchvision>=0.22.0"],
+    # "torch-npu": ["torch>=2.7.0", "torch-npu>=2.7.0", "decorator"],
     "metrics": ["nltk", "jieba", "rouge-chinese"],
     "deepspeed": ["deepspeed>=0.10.0,<=0.16.9"],
     "liger-kernel": ["liger-kernel>=0.5.5"],
@@ -52,8 +52,8 @@ extra_require = {
     "eetq": ["eetq"],
     "gptq": ["optimum>=1.24.0", "gptqmodel>=2.0.0"],
     "aqlm": ["aqlm[gpu]>=1.1.0"],
-    "vllm": ["vllm>=0.4.3,<=0.9.1"],
-    "sglang": ["sglang[srt]>=0.4.5", "transformers==4.51.1"],
+    # "vllm": ["vllm>=0.4.3,<=0.9.1"],
+    "sglang": ["sglang[blackwell]>=0.4.6", "transformers>=4.51.1"],
     "galore": ["galore-torch"],
     "apollo": ["apollo-torch"],
     "badam": ["badam>=1.2.1"],
@@ -69,7 +69,7 @@ extra_require = {
         "jsonschema_specifications",
     ],
     "modelscope": ["modelscope"],
-    "openmind": ["openmind"],
+    # "openmind": ["openmind"],
     "swanlab": ["swanlab"],
     "dev": ["pre-commit", "ruff", "pytest", "build"],
 }
@@ -89,7 +89,7 @@ def main():
         url="https://github.com/hiyouga/LLaMA-Factory",
         package_dir={"": "src"},
         packages=find_packages("src"),
-        python_requires=">=3.9.0",
+        python_requires=">=3.10",
         install_requires=get_requires(),
         extras_require=extra_require,
         entry_points={"console_scripts": get_console_scripts()},

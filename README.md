@@ -1,3 +1,9 @@
+# TUFA Labs Fork
+To install run:
+```
+uy sync --extra torch --extra metrics
+```
+
 ![# LLaMA Factory](assets/logo.png)
 
 [![GitHub Repo stars](https://img.shields.io/github/stars/hiyouga/LLaMA-Factory?style=social)](https://github.com/hiyouga/LLaMA-Factory/stargazers)

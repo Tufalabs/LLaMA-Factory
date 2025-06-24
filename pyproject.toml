@@ -4,19 +4,99 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llamafactory"
-dynamic = [
-    "version",
-    "dependencies",
-    "optional-dependencies",
-    "requires-python",
-    "scripts",
-    "authors",
-    "description",
-    "readme",
-    "license",
-    "keywords",
-    "classifiers"
+dynamic = ["version"]
+authors = [
+    {name = "hiyouga", email = "hiyouga@buaa.edu.cn"}
 ]
+description = "Unified Efficient Fine-Tuning of 100+ LLMs"
+readme = "README.md"
+license = {text = "Apache 2.0 License"}
+keywords = ["AI", "LLM", "GPT", "ChatGPT", "Llama", "Transformer", "DeepSeek", "Pytorch"]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "transformers>=4.45.0,<=4.52.4,!=4.46.*,!=4.47.*,!=4.48.0,!=4.52.0; sys_platform != 'darwin'",
+    "transformers>=4.45.0,<=4.51.3,!=4.46.*,!=4.47.*,!=4.48.0,!=4.52.0; sys_platform == 'darwin'",
+    "datasets>=2.16.0,<=3.6.0",
+    "accelerate>=0.34.0,<=1.7.0",
+    "peft>=0.14.0,<=0.15.2",
+    "trl>=0.8.6,<=0.9.6",
+    "tokenizers>=0.19.0,<=0.21.1",
+    "gradio>=4.38.0,<=5.31.0",
+    "scipy",
+    "einops",
+    "sentencepiece",
+    "tiktoken",
+    "protobuf",
+    "uvicorn",
+    "fastapi",
+    "sse-starlette",
+    "matplotlib>=3.7.0",
+    "fire",
+    "omegaconf",
+    "packaging",
+    "pyyaml",
+    "numpy<2.0.0",
+    "pydantic<=2.10.6",
+    "pandas>=2.0.0",
+    "av",
+    "librosa",
+    "tyro<0.9.0",
+]
+
+[project.optional-dependencies]
+torch = ["torch>=2.7.0", "torchvision>=0.22.0"]
+# torch-npu = ["torch>=2.7.0", "torch-npu>=2.7.0", "decorator"]
+metrics = ["nltk", "jieba", "rouge-chinese"]
+deepspeed = ["deepspeed>=0.10.0,<=0.16.9"]
+liger-kernel = ["liger-kernel>=0.5.5"]
+bitsandbytes = ["bitsandbytes>=0.39.0"]
+hqq = ["hqq"]
+eetq = ["eetq"]
+gptq = ["optimum>=1.24.0", "gptqmodel>=2.0.0"]
+aqlm = ["aqlm[gpu]>=1.1.0"]
+# vllm = ["vllm>=0.4.3,<=0.9.1"]
+sglang = ["sglang[blackwell]>=0.4.6", "transformers>=4.51.1"]
+galore = ["galore-torch"]
+apollo = ["apollo-torch"]
+badam = ["badam>=1.2.1"]
+adam-mini = ["adam-mini"]
+minicpm_v = [
+    "soundfile",
+    "torchvision",
+    "torchaudio",
+    "vector_quantize_pytorch",
+    "vocos",
+    "msgpack",
+    "referencing",
+    "jsonschema_specifications",
+]
+modelscope = ["modelscope"]
+# openmind = ["openmind"]
+swanlab = ["swanlab"]
+dev = ["pre-commit", "ruff", "pytest", "build"]
+
+[project.scripts]
+llamafactory-cli = "llamafactory.cli:main"
+lmf = "llamafactory.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/hiyouga/LLaMA-Factory"
+"Repository" = "https://github.com/hiyouga/LLaMA-Factory"
+"Bug Tracker" = "https://github.com/hiyouga/LLaMA-Factory/issues"
 
 [tool.ruff]
 target-version = "py39"
@@ -74,8 +154,18 @@ docstring-code-format = true
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
+[tool.setuptools.dynamic]
+version = {attr = "llamafactory.extras.env.VERSION"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.uv]
 conflicts = [
+    [
+        { extra = "torch" },
+        { extra = "torch-npu" },
+    ],
     [
         { extra = "torch-npu" },
         { extra = "aqlm" },
@@ -92,4 +182,34 @@ conflicts = [
         { extra = "vllm" },
         { extra = "sglang" },
     ],
+]
+
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "sgl-kernel-cu128"
+url = "https://docs.sglang.ai/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "kev-builds"
+url = "/mnt/artifacts/kev_builds/"
+format = "flat"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128", marker = "sys_platform == 'linux'" }
+torchaudio = { index = "pytorch-cu128", marker = "sys_platform == 'linux'" }
+torchvision = { index = "pytorch-cu128", marker = "sys_platform == 'linux'" }
+sgl-kernel = {index = "sgl-kernel-cu128"}
+flash-attn = {index = "kev-builds"}
+flashinfer-python = {index = "kev-builds"}
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
 ]

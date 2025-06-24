@@ -1,3 +1,6 @@
+# Core dependencies for LLaMA-Factory
+# NOTE: These dependencies are also specified in pyproject.toml for packaging
+# Keep both files in sync when updating dependencies
 transformers>=4.45.0,<=4.52.4,!=4.46.*,!=4.47.*,!=4.48.0,!=4.52.0; sys_platform != 'darwin'
 transformers>=4.45.0,<=4.51.3,!=4.46.*,!=4.47.*,!=4.48.0,!=4.52.0; sys_platform == 'darwin'
 datasets>=2.16.0,<=3.6.0

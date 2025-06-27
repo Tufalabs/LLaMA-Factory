@@ -348,6 +348,20 @@
       "system_tag": "system"
     }
   },
+  "open_thoughts_2": {
+    "file_name": "/mnt/datasets/isaiah/OpenThoughts2-1M-formatted.parquet",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
   "open_r1_math": {
     "hf_hub_url": "llamafactory/OpenR1-Math-94k",
     "formatting": "sharegpt",

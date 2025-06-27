@@ -1,7 +1,7 @@
 # TUFA Labs Fork
 To install run:
 ```
-uy sync --extra torch --extra metrics
+uv sync --extra torch --extra metrics
 ```
 
 ![# LLaMA Factory](assets/logo.png)

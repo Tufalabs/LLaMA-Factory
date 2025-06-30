@@ -3,7 +3,6 @@ model_name_or_path: Qwen/Qwen2.5-1.5B
 stage: sft
 do_train: true
 finetuning_type: full
-#lora_target: all
 
 dataset: open_thoughts_2_train
 eval_dataset: open_thoughts_2_test
@@ -15,7 +14,7 @@ preprocessing_num_workers: 16
 
 output_dir: /mnt/checkpoints/isaiah/qwen2.5-1.5B-sft-open_thoughts
 logging_steps: 10
-save_steps: 500
+save_steps: 1000
 plot_loss: true
 overwrite_output_dir: false
 push_to_hub: false

@@ -348,8 +348,22 @@
       "system_tag": "system"
     }
   },
-  "open_thoughts_2": {
-    "file_name": "/mnt/datasets/isaiah/OpenThoughts2-1M-formatted.parquet",
+  "open_thoughts_2_train": {
+    "file_name": "/mnt/datasets/isaiah/OpenThoughts2-1M-formatted-train.parquet",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "open_thoughts_2_test": {
+    "file_name": "/mnt/datasets/isaiah/OpenThoughts2-1M-formatted-test.parquet",
     "formatting": "sharegpt",
     "columns": {
       "messages": "messages"

@@ -3,6 +3,7 @@ from pathlib import Path
 
 from datasets import Dataset, load_dataset
 
+
 SYSTEM = (
     "You are an assistant that thoroughly explores questions through a systematic long thinking process "
     "before providing the final precise and accurate solutions. "
@@ -17,10 +18,12 @@ SYSTEM = (
     "reach the conclusion. Now, try to solve the following question through the above guidelines."
 )
 THINK_RE = re.compile(r"^<think>(.*)</think>(.*)$", re.DOTALL)
+TEST_SIZE = 0.01
+SEED = 42
 
 
 class InvalidResponse(ValueError):
-    """Improper response formatting"""
+    """Improper response formatting."""
 
 
 def generate_data(data):
@@ -58,13 +61,30 @@ def format_response(response):
 
 def main():
     dataset_name = "OpenThoughts2-1M"
-    original_dataset = load_dataset(f"open-thoughts/{dataset_name}", "default", split="train")
+    original_dataset = load_dataset(
+        f"open-thoughts/{dataset_name}",
+        name="default",
+        split="train",
+    )
     print(f"Original dataset size: {len(original_dataset):,}")
-    new_dataset = Dataset.from_generator(generate_data, gen_kwargs={"data": original_dataset})
-    print(f"Cleaned and formatted dataset size: {len(new_dataset):,}")
-    save_path = Path(f"{dataset_name}-formatted.parquet").absolute()
-    new_dataset.to_parquet(save_path)
-    print(f"Saved dataset to: {save_path}")
+    new_dataset = Dataset.from_generator(generate_data, gen_kwargs={"data": original_dataset}).train_test_split(
+        test_size=TEST_SIZE,
+        seed=SEED,
+    )
+    train_dataset = new_dataset["train"]
+    test_dataset = new_dataset["test"]
+    train_size = len(train_dataset)
+    test_size = len(test_dataset)
+    print(
+        f"Cleaned and formatted dataset with train/test/total sizes: "
+        f"{train_size:,}/{test_size:,}/{train_size + test_size:,}"
+    )
+    train_save_path = Path(f"{dataset_name}-formatted-train.parquet").absolute()
+    test_save_path = Path(f"{dataset_name}-formatted-test.parquet").absolute()
+    train_dataset.to_parquet(train_save_path)
+    print(f"Saved train dataset to: {train_save_path}")
+    test_dataset.to_parquet(test_save_path)
+    print(f"Saved test dataset to: {test_save_path}")
 
 
 if __name__ == "__main__":

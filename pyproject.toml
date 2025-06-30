@@ -56,6 +56,7 @@ dependencies = [
     "librosa",
     "tyro<0.9.0",
     "wandb>=0.20.1",
+    "pre-commit>=4.2.0",
 ]
 
 [project.optional-dependencies]

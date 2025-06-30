@@ -5,7 +5,8 @@ do_train: true
 finetuning_type: full
 #lora_target: all
 
-dataset: open_thoughts_2
+dataset: open_thoughts_2_train
+eval_dataset: open_thoughts_2_test
 template: chatml
 cutoff_len: 32768
 max_samples: null
@@ -28,10 +29,10 @@ warmup_ratio: 0.1
 bf16: true
 ddp_timeout: 180000000
 
-val_size: 0.1
-per_device_eval_batch_size: 1
+val_size: 0.0
+per_device_eval_batch_size: 4
 eval_strategy: steps
-eval_steps: 500
+eval_steps: 1000
 
 report_to: wandb
 run_name: qwen_2.5-1.5B

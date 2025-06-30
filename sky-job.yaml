@@ -7,21 +7,26 @@ resources:
 
 workdir: .
 
+envs:
+  CONFIG: deepseek_sft_qwen2.5-1.5B.yaml
+
 file_mounts:
   ~/.env: ~/tufa/.env
   ~/.netrc: ~/.netrc # For wandb login
 
 setup: |
+  set -e
   conda config --set auto_activate_base false
 
 run: |
+  set -e
   conda deactivate
   export CHECKPOINTS_DIR=/mnt/checkpoints/$SKYPILOT_TASK_ID
   export LOGS_DIR=/mnt/logs/$SKYPILOT_TASK_ID
 
   uv sync --extra torch --extra metrics
   source .venv/bin/activate
-  llamafactory-cli train configs/deepseek_sft_qwen2.5-1.5B.yaml
+  llamafactory-cli train configs/${CONFIG}
 
 config:
   kubernetes:

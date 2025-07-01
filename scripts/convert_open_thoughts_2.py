@@ -18,7 +18,8 @@ SYSTEM = (
     "reach the conclusion. Now, try to solve the following question through the above guidelines."
 )
 THINK_RE = re.compile(r"^<think>(.*)</think>(.*)$", re.DOTALL)
-TEST_SIZE = 0.01
+TRAIN_FRACTION = 0.1
+TEST_FRACTION_OF_TRAIN = 0.02
 SEED = 42
 
 
@@ -59,6 +60,18 @@ def format_response(response):
     return f"<think>\n{match.group(1).strip()}\n</think>\n\n{match.group(2).strip()}"
 
 
+def extract_train_test(
+    dataset: Dataset,
+    test_size: float,
+    seed: int,
+) -> tuple[Dataset, Dataset]:
+    dataset_split = dataset.train_test_split(
+        test_size=test_size,
+        seed=seed,
+    )
+    return dataset_split["train"], dataset_split["test"]
+
+
 def main():
     dataset_name = "OpenThoughts2-1M"
     original_dataset = load_dataset(
@@ -67,23 +80,22 @@ def main():
         split="train",
     )
     print(f"Original dataset size: {len(original_dataset):,}")
-    new_dataset = Dataset.from_generator(generate_data, gen_kwargs={"data": original_dataset}).train_test_split(
-        test_size=TEST_SIZE,
+    data_subset = Dataset.from_generator(generate_data, gen_kwargs={"data": original_dataset}).train_test_split(
+        train_size=TRAIN_FRACTION,
         seed=SEED,
     )
-    train_dataset = new_dataset["train"]
-    test_dataset = new_dataset["test"]
-    train_size = len(train_dataset)
-    test_size = len(test_dataset)
+    train_data, test_data = extract_train_test(data_subset["train"], test_size=TEST_FRACTION_OF_TRAIN, seed=SEED)
+    train_size = len(train_data)
+    test_size = len(test_data)
     print(
-        f"Cleaned and formatted dataset with train/test/total sizes: "
+        f"Cleaned and formatted data subset with train/test/total sizes: "
         f"{train_size:,}/{test_size:,}/{train_size + test_size:,}"
     )
     train_save_path = Path(f"{dataset_name}-formatted-train.parquet").absolute()
     test_save_path = Path(f"{dataset_name}-formatted-test.parquet").absolute()
-    train_dataset.to_parquet(train_save_path)
+    train_data.to_parquet(train_save_path)
     print(f"Saved train dataset to: {train_save_path}")
-    test_dataset.to_parquet(test_save_path)
+    test_data.to_parquet(test_save_path)
     print(f"Saved test dataset to: {test_save_path}")
 
 

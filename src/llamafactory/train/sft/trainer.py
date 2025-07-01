@@ -22,6 +22,7 @@ from typing import TYPE_CHECKING, Any, Optional, Union
 
 import numpy as np
 import torch
+from torch import nn
 from transformers import Seq2SeqTrainer
 from typing_extensions import override
 
@@ -77,6 +78,9 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
 
             self.accelerator.clip_grad_norm_ = MethodType(clip_grad_norm_old_version, self.accelerator)
             self.add_callback(BAdamCallback)
+
+        self.n_params = sum(p.numel() for p in self.model.parameters())
+        self.total_tokens = 0
 
     @override
     def create_optimizer(self) -> "torch.optim.Optimizer":
@@ -163,3 +167,17 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
         with open(output_prediction_file, "w", encoding="utf-8") as f:
             for text, pred, label in zip(decoded_inputs, decoded_preds, decoded_labels):
                 f.write(json.dumps({"prompt": text, "predict": pred, "label": label}, ensure_ascii=False) + "\n")
+
+    @override
+    def training_step(
+        self, model: nn.Module, inputs: dict[str, Union[torch.Tensor, Any]], num_items_in_batch=None
+    ) -> torch.Tensor:
+        loss = super().training_step(model, inputs)
+        if "input_ids" in inputs:
+            self.total_tokens += inputs["input_ids"].numel()
+
+        if self.control.should_log:
+            total_flops = 6 * self.n_params * self.total_tokens
+            self.log({"total_flops": total_flops})
+
+        return loss

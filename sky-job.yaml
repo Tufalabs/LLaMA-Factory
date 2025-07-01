@@ -8,11 +8,13 @@ resources:
 workdir: .
 
 envs:
-  CONFIG: deepseek_sft_qwen2.5-1.5B.yaml
+  PROJECT: OpenThoughts-SFT-ablations
+  MODEL_NAME: olmo-2-0425-1B
+  MODEL_REVISION: NA  # Should be specified manually
 
 file_mounts:
   ~/.env: ~/tufa/.env
-  ~/.netrc: ~/.netrc # For wandb login
+  ~/.netrc: ~/.netrc  # For wandb login
 
 setup: |
   set -e
@@ -21,12 +23,16 @@ setup: |
 run: |
   set -e
   conda deactivate
-  export CHECKPOINTS_DIR=/mnt/checkpoints/$SKYPILOT_TASK_ID
-  export LOGS_DIR=/mnt/logs/$SKYPILOT_TASK_ID
+  export WANDB_PROJECT=${PROJECT}
+  export CONFIG=${MODEL_NAME}_sft_open-thoughts-2
+  export RUN_NAME=${MODEL_NAME}_${MODEL_REVISION}
 
   uv sync --extra torch --extra metrics
   source .venv/bin/activate
-  llamafactory-cli train configs/${CONFIG}
+  llamafactory-cli train configs/${CONFIG}.yaml \
+    model_revision=${MODEL_REVISION} \
+    output_dir=/mnt/checkpoints/${PROJECT}/${RUN_NAME} \
+    run_name=${RUN_NAME}
 
 config:
   kubernetes:

@@ -172,12 +172,16 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
     def training_step(
         self, model: nn.Module, inputs: dict[str, Union[torch.Tensor, Any]], num_items_in_batch=None
     ) -> torch.Tensor:
-        loss = super().training_step(model, inputs)
         if "input_ids" in inputs:
             self.total_tokens += inputs["input_ids"].numel()
 
-        if self.control.should_log:
-            total_flops = 6 * self.n_params * self.total_tokens
-            self.log({"total_flops": total_flops})
+        return super().training_step(model, inputs)
 
-        return loss
+    @override
+    def log(self, logs: dict[str, float], *args, **kwargs) -> None:
+        is_train = "loss" in logs
+        if is_train:
+            assert "total_flops" not in logs
+            logs["total_flops"] = 6 * self.n_params * self.total_tokens
+
+        return super().log(logs, *args, **kwargs)

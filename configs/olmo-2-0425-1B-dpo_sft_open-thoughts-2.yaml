@@ -1,6 +1,5 @@
-model_name_or_path: allenai/OLMo-2-0425-1B
-# Error if model_revision not provided
-model_revision: NA
+model_name_or_path: allenai/OLMo-2-0425-1B-DPO
+model_revision: main
 
 stage: sft
 do_train: true
@@ -14,7 +13,7 @@ max_samples: null
 overwrite_cache: true
 preprocessing_num_workers: 32
 
-output_dir: /mnt/checkpoints/isaiah/olmo-2-0425-1B_sft_open-thoughts-2
+output_dir: /mnt/checkpoints/isaiah/olmo-2-0425-1B-DPO_sft_open-thoughts-2
 logging_steps: 2
 save_steps: 100
 plot_loss: true
@@ -36,4 +35,4 @@ eval_strategy: steps
 eval_steps: 100
 
 report_to: wandb
-run_name: olmo-2-0425-1B
+run_name: olmo-2-0425-1B-DPO

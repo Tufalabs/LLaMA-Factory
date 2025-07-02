@@ -181,6 +181,8 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
     def log(self, logs: dict[str, float], *args, **kwargs) -> None:
         is_train = "loss" in logs
         if is_train:
+            assert "total_tokens" not in logs
+            logs["total_tokens"] = self.total_tokens
             assert "total_flops" not in logs
             logs["total_flops"] = 6 * self.n_params * self.total_tokens
 

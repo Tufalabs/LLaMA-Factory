@@ -27,6 +27,7 @@ run: |
   export CONFIG=${MODEL_NAME}_sft_open-thoughts-2
   export RUN_NAME=${MODEL_NAME}_${MODEL_REVISION}
 
+  apt-get install python3-dev -y
   uv sync --extra torch --extra metrics
   source .venv/bin/activate
   llamafactory-cli train configs/${CONFIG}.yaml \

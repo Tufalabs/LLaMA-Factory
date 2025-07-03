@@ -1,4 +1,4 @@
-model_name_or_path: Qwen/Qwen2.5-1.5B
+model_name_or_path: Qwen/Qwen2-1.5B
 model_revision: main
 
 stage: sft
@@ -13,7 +13,7 @@ max_samples: null
 overwrite_cache: true
 preprocessing_num_workers: 16
 
-output_dir: /mnt/checkpoints/isaiah/qwen2.5-1.5B_sft_open-thoughts-2
+output_dir: /mnt/checkpoints/isaiah/qwen2-1.5B_sft_open-thoughts-2
 logging_steps: 2
 save_steps: 100
 plot_loss: true
@@ -35,4 +35,4 @@ eval_strategy: steps
 eval_steps: 100
 
 report_to: wandb
-run_name: qwen2.5-1.5B
+run_name: qwen2-1.5B

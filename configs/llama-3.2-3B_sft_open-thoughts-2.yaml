@@ -1,9 +1,10 @@
-model_name_or_path: Qwen/Qwen2.5-1.5B
+model_name_or_path: meta-llama/Llama-3.2-3B
 model_revision: main
 
 stage: sft
 do_train: true
 finetuning_type: full
+deepspeed: configs/deepspeed/ds_z1_config.json
 
 dataset: open_thoughts_2_train
 eval_dataset: open_thoughts_2_test
@@ -13,7 +14,7 @@ max_samples: null
 overwrite_cache: true
 preprocessing_num_workers: 16
 
-output_dir: /mnt/checkpoints/isaiah/qwen2.5-1.5B_sft_open-thoughts-2
+output_dir: /mnt/checkpoints/isaiah/llama-3.2-3B_sft_open-thoughts-2
 logging_steps: 2
 save_steps: 100
 plot_loss: true
@@ -35,4 +36,4 @@ eval_strategy: steps
 eval_steps: 100
 
 report_to: wandb
-run_name: qwen2.5-1.5B
+run_name: llama-3.2-3B

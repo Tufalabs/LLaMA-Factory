@@ -9,7 +9,6 @@ workdir: .
 
 file_mounts:
   ~/.env: ~/tufa/.env
-  ~/.netrc: ~/.netrc # For wandb login
 
 setup: |
   set -e
@@ -18,11 +17,10 @@ setup: |
 run: |
   set -e
   conda deactivate
-  export CHECKPOINTS_DIR=/mnt/checkpoints/$SKYPILOT_TASK_ID
-  export LOGS_DIR=/mnt/logs/$SKYPILOT_TASK_ID
+  set -a; . ~/.env; set +a
 
+  apt-get install python3-dev -y
   uv sync --extra torch --extra metrics
-  source .venv/bin/activate
 
 config:
   kubernetes:

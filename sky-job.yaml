@@ -8,13 +8,11 @@ resources:
 workdir: .
 
 envs:
-  PROJECT: OpenThoughts-SFT-ablations
   MODEL_NAME: olmo-2-0425-1B
-  MODEL_REVISION: NA  # Should be specified manually
+  MODEL_REVISION: null  # Should be specified manually
 
 file_mounts:
   ~/.env: ~/tufa/.env
-  ~/.netrc: ~/.netrc  # For wandb login
 
 setup: |
   set -e
@@ -23,6 +21,8 @@ setup: |
 run: |
   set -e
   conda deactivate
+  set -a; . ~/.env; set +a
+  export PROJECT=OpenThoughts-SFT-ablations
   export WANDB_PROJECT=${PROJECT}
   export CONFIG=${MODEL_NAME}_sft_open-thoughts-2
   export RUN_NAME=${MODEL_NAME}_${MODEL_REVISION}

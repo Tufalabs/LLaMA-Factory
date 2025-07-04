@@ -4,6 +4,7 @@ model_revision: main
 stage: sft
 do_train: true
 finetuning_type: full
+deepspeed: configs/deepspeed/ds_z1_config.json
 
 dataset: open_thoughts_2_train
 eval_dataset: open_thoughts_2_test

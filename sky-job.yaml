@@ -8,8 +8,8 @@ resources:
 workdir: .
 
 envs:
-  MODEL_NAME: olmo-2-0425-1B
-  MODEL_REVISION: null  # Should be specified manually
+  MODEL_NAME: null
+  MODEL_REVISION: null
 
 file_mounts:
   ~/.env: ~/tufa/.env

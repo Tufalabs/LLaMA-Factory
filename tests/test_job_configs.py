@@ -8,6 +8,7 @@ from huggingface_hub import list_repo_refs
 JOB_CONFIGS = list(Path("configs/").glob("*.yaml"))
 
 
+@pytest.mark.tufa
 @pytest.mark.parametrize("config_file", JOB_CONFIGS)
 def test_model_names(config_file: Path) -> None:
     with open(config_file) as f:
@@ -20,6 +21,7 @@ def test_model_names(config_file: Path) -> None:
     assert Path(config["output_dir"]).name.lower() == config_file.stem.lower()
 
 
+@pytest.mark.tufa
 @pytest.mark.parametrize("config_file", JOB_CONFIGS)
 def test_model_revisions(config_file: Path) -> None:
     with open(config_file) as f:

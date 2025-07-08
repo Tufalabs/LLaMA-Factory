@@ -23,5 +23,5 @@ style:
 test:
 	CUDA_VISIBLE_DEVICES= WANDB_DISABLED=true pytest -vv tests/
 
-test-configs:
-	pytest -vv tests/test_job_configs.py
+test-tufa:
+	CUDA_VISIBLE_DEVICES= WANDB_DISABLED=true pytest -vv tests/ -m tufa

@@ -157,6 +157,11 @@ docstring-code-format = true
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
+[tool.pytest.ini_options]
+markers = [
+    "tufa: tests for tufa-labs extensions",
+]
+
 [tool.setuptools.dynamic]
 version = {attr = "llamafactory.extras.env.VERSION"}
 

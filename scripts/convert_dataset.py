@@ -14,8 +14,9 @@ class UserArgs(BaseModel):
     save_path: Path
     seed: int
 
-    @field_validator("dataset")
-    def _validate_dataset(self, val: DatasetName | str) -> DatasetName:
+    @field_validator("dataset", mode="before")
+    @classmethod
+    def _validate_dataset(cls, val: DatasetName | str) -> DatasetName:
         if isinstance(val, DatasetName):
             return val
 
@@ -25,14 +26,15 @@ class UserArgs(BaseModel):
             pass
 
         try:
-            return DatasetName[val]
+            return DatasetName[val.upper()]
         except KeyError:
             pass
 
         raise ValueError(f"Unrecognized dataset '{val}'")
 
     @field_validator("save_path")
-    def _validate_save_path(self, val: Path) -> Path:
+    @classmethod
+    def _validate_save_path(cls, val: Path) -> Path:
         val = val.absolute()
         if not val.is_dir():
             raise ValueError(f"save-path doesn't exist: {val}")

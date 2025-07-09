@@ -11,3 +11,10 @@ def extract_train_test(
         seed=seed,
     )
     return dataset_split["train"], dataset_split["test"]
+
+
+def extract_prompt_and_response_from_chatml_pair(conversation: list[dict[str, str]]) -> tuple[str, str]:
+    user_text, assistant_text = conversation
+    assert user_text["role"] == "user"
+    assert assistant_text["role"] == "assistant"
+    return user_text["content"], assistant_text["content"]

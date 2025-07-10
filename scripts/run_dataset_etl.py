@@ -44,10 +44,7 @@ class UserArgs(BaseModel):
     @staticmethod
     def from_argparse() -> "UserArgs":
         parser = argparse.ArgumentParser(description="Download and format ")
-        parser.add_argument(
-            "dataset",
-            type=str,
-        )
+        parser.add_argument("dataset", type=str, help=f"{sorted(dn.name for dn in DatasetName)}")
         parser.add_argument("-p", "--save-path", type=Path, default=".")
         parser.add_argument("-s", "--seed", type=int, default=DEFAULT_SEED)
         user_args = parser.parse_args()

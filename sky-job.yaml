@@ -10,6 +10,7 @@ workdir: .
 envs:
   MODEL_NAME: null
   MODEL_REVISION: null
+  DATASET: open-thoughts-2
 
 file_mounts:
   ~/.env: ~/tufa/.env
@@ -24,7 +25,7 @@ run: |
   set -a; . ~/.env; set +a
   export PROJECT=OpenThoughts-SFT-ablations
   export WANDB_PROJECT=${PROJECT}
-  export CONFIG=${MODEL_NAME}_sft_open-thoughts-2
+  export CONFIG=${MODEL_NAME}_sft_${DATASET}
   export RUN_NAME=${MODEL_NAME}_${MODEL_REVISION}
 
   apt-get install python3-dev -y
@@ -32,7 +33,7 @@ run: |
   source .venv/bin/activate
   llamafactory-cli train configs/${CONFIG}.yaml \
     model_revision=${MODEL_REVISION} \
-    output_dir=/mnt/checkpoints/${PROJECT}/${RUN_NAME} \
+    output_dir=/mnt/checkpoints/${PROJECT}/${DATASET}/${RUN_NAME} \
     run_name=${RUN_NAME}
 
 config:

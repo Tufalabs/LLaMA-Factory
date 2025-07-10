@@ -757,6 +757,34 @@
       "system_tag": "system"
     }
   },
+  "web_back_translation_train": {
+    "file_name": "/mnt/datasets/isaiah/web_back_translation_100k_llama3-formatted-train.parquet",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "web_back_translation_test": {
+    "file_name": "/mnt/datasets/isaiah/web_back_translation_100k_llama3-formatted-test.parquet",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
   "webr_basic_test": {
     "file_name": "/mnt/datasets/isaiah/WebR-Basic-100k-formatted-test.parquet",
     "formatting": "sharegpt",
@@ -787,34 +815,6 @@
   },
   "webr_pro_test": {
     "file_name": "/mnt/datasets/isaiah/WebR-Pro-100k-formatted-test.parquet",
-    "formatting": "sharegpt",
-    "columns": {
-      "messages": "messages"
-    },
-    "tags": {
-      "role_tag": "role",
-      "content_tag": "content",
-      "user_tag": "user",
-      "assistant_tag": "assistant",
-      "system_tag": "system"
-    }
-  },
-  "web_back_translation_train": {
-    "file_name": "/mnt/datasets/isaiah/web_back_translation_100k_llama3-formatted-train.parquet",
-    "formatting": "sharegpt",
-    "columns": {
-      "messages": "messages"
-    },
-    "tags": {
-      "role_tag": "role",
-      "content_tag": "content",
-      "user_tag": "user",
-      "assistant_tag": "assistant",
-      "system_tag": "system"
-    }
-  },
-  "web_back_translation_test": {
-    "file_name": "/mnt/datasets/isaiah/web_back_translation_100k_llama3-formatted-test.parquet",
     "formatting": "sharegpt",
     "columns": {
       "messages": "messages"

@@ -10,7 +10,7 @@ workdir: .
 envs:
   MODEL_NAME: null
   MODEL_REVISION: null
-  DATASET: open-thoughts-2
+  DATASET: null
 
 file_mounts:
   ~/.env: ~/tufa/.env
